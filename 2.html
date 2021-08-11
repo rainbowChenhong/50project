@@ -1,0 +1,97 @@
+<!--
+ * @Description: 
+ * @version: 1.0.0
+ * @Author: chenhong
+ * @Date: 2021-08-10 15:10:38
+ * @LastEditors: chenhong
+ * @LastEditTime: 2021-08-10 15:35:57
+-->
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <style>
+      .progress-step {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+      }
+      .step {
+        display: flex;
+        align-items: center;
+      }
+      .circle {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        border: 1px solid gray;
+        border-radius: 100%;
+      }
+      .line {
+        width: 100px;
+        height: 5px;
+        background-color: gray;
+      }
+      .active .circle {
+        border-color: blue;
+        transition: border-color 0.5s;
+      }
+      .active .line {
+        background-color: blue;
+        transition-delay: 0.5s;
+        transition: border-color 0.5s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress-step">
+      <div class="step">
+        <div class="circle">1</div>
+      </div>
+      <div class="step">
+        <div class="line"></div>
+        <div class="circle">2</div>
+      </div>
+      <div class="step">
+        <div class="line"></div>
+        <div class="circle">3</div>
+      </div>
+      <div class="step">
+        <div class="line"></div>
+        <div class="circle">4</div>
+      </div>
+    </div>
+    <div>
+      <button onclick="back()">上一步</button>
+      <button onclick="next()">下一步</button>
+    </div>
+    <script>
+      let current = undefined;
+      let stepList = document.querySelectorAll(".step");
+      function back() {
+        if (current != undefined) {
+          stepList[current].classList.remove("active");
+          current = --current;
+        }
+      }
+      function next() {
+        if (current != undefined) {
+          current = ++current;
+        } else {
+          current = 0;
+        }
+        stepList[current].classList.add("active");
+      }
+    </script>
+  </body>
+</html>

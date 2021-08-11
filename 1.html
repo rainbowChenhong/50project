@@ -1,0 +1,87 @@
+<!--
+ * @Description: 
+ * @version: 1.0.0
+ * @Author: chenhong
+ * @Date: 2021-08-10 13:25:44
+ * @LastEditors: chenhong
+ * @LastEditTime: 2021-08-10 15:07:38
+-->
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <style>
+      .list {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        padding: 20px;
+      }
+      .list .item {
+        height: 500px;
+        padding: 0px 10px;
+        width: 100px;
+        max-width: 100px;
+        transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .list .item img {
+        width: 100%;
+        height: 100%;
+      }
+      .list .active {
+        max-width: 800px;
+        width: 800px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="list">
+      <div class="item active">
+        <img
+          src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+        />
+      </div>
+      <div class="item">
+        <img
+          src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+        />
+      </div>
+      <div class="item">
+        <img
+          src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+        />
+      </div>
+      <div class="item">
+        <img
+          src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+        />
+      </div>
+    </div>
+    <script>
+      document.addEventListener("click", (e) => {
+        if (e.target.nodeName === "IMG") {
+          let parent = e.target.parentElement;
+          [].filter
+            .call(parent.parentElement.children, (item) => {
+              console.log(item !== parent);
+              return item !== parent;
+            })
+            .map((item) => item.classList.remove("active"));
+          parent.classList.add("active");
+          console.log(parent.classList);
+        }
+      });
+    </script>
+  </body>
+</html>

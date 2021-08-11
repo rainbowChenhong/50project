@@ -1,0 +1,69 @@
+<!--
+ * @Description: 
+ * @version: 1.0.0
+ * @Author: chenhong
+ * @Date: 2021-08-10 16:38:19
+ * @LastEditors: chenhong
+ * @LastEditTime: 2021-08-10 17:29:10
+-->
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+  </head>
+  <style>
+    .box {
+      width: 800px;
+      height: 400px;
+      position: relative;
+    }
+    .box .loading {
+      position: absolute;
+      width: 800px;
+      height: 400px;
+      top: 0;
+      left: 0;
+      line-height: 400px;
+      text-align: center;
+      background-color: rgba(225, 225, 225, 0.5);
+    }
+    img {
+      width: 800px;
+      height: 400px;
+      filter: blur(10px);
+    }
+  </style>
+  <body>
+    <div class="box">
+      <img src="./1.jpeg" />
+      <div class="loading"></div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        let time = 0;
+        laoding(time);
+      });
+      let img = document.getElementsByTagName("img")[0];
+      let el = document.querySelectorAll(".loading")[0];
+      function laoding(time) {
+        if (time < 100) {
+          time++;
+          if (time % 10 == 0) {
+            img.style.filter = "blur(" + (100 - time) / 10 + "px)";
+          }
+          el.innerHTML = time + "%";
+          window.requestAnimationFrame(() => laoding(time));
+        }
+      }
+    </script>
+  </body>
+</html>

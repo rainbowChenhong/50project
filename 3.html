@@ -1,0 +1,73 @@
+<!--
+ * @Description: 
+ * @version: 1.0.0
+ * @Author: chenhong
+ * @Date: 2021-08-10 15:36:38
+ * @LastEditors: chenhong
+ * @LastEditTime: 2021-08-10 16:37:19
+-->
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <style>
+      body {
+        background-color: cornflowerblue;
+      }
+      .box {
+        display: flex;
+        align-items: center;
+        width: 35px;
+        border-radius: 3px;
+        background-color: #fff;
+        position: relative;
+      }
+      .box input {
+        height: 35px;
+        line-height: 35px;
+        border-radius: 3px;
+        border: none;
+        outline: none;
+        width: 0px;
+      }
+      .modal {
+        position: absolute;
+        width: 35px;
+        height: 35px;
+        right: 0px;
+        cursor: pointer;
+      }
+      .active.box {
+        width: 252px;
+        transition: width 0.5s;
+      }
+      .active input {
+        width: 220px;
+        transition: width 0.5s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <input placeholder="请输入内容" />
+      <div class="modal"></div>
+      <embed src="./search.svg" type="image/svg+xml" />
+    </div>
+    <script>
+      document.querySelectorAll(".modal")[0].addEventListener("click", (e) => {
+        let preelement = e.target.parentElement;
+        preelement.classList.toggle("active");
+        e.target.previousElementSibling.focus();
+      });
+    </script>
+  </body>
+</html>
