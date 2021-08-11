@@ -2,15 +2,25 @@ const chokidar = require("chokidar");
 const path = require("path");
 const http = require("http");
 const fs = require("fs");
+const url = require("url");
+const mime = require("mime");
 const port = 3000;
 //设置默认文件
-let defaultFile = path.join("./1.html");
+let defaultFile = path.join("web/default.html");
 //创建server
 const server = http.createServer((req, res) => {
   res.writeHead(200, {"Content-Type": "text/html"});
   html = fs.readFileSync(defaultFile, "utf-8");
-  let newhtml = handleHtml(html);
-  res.end(newhtml);
+  let urlObj = url.parse(req.url);
+  let urlPathname = urlObj.pathname;
+  //返回html
+  if (urlPathname === "/") {
+    let newhtml = handleHtml(html);
+    res.end(newhtml);
+  } else {
+    let filePathname = path.join(__dirname, "/web", urlPathname);
+    readStaticFile(res, filePathname);
+  }
 });
 
 //启动服务
@@ -29,12 +39,13 @@ io.on("connection", (client) => {
   });
 });
 
-let dir = path.join(__dirname);
+let dir = path.join(__dirname, "web");
 
 //启动文件监听
 var watcher = chokidar.watch(dir, {
   //忽略文件
-  ignored: [/^[^\s()<>]+\.(json|svg|js)$|node_modules$/],
+  ignored: /(^|[\/\\])\../,
+  // ignored: [/^[^\s()<>]+\.(json|svg|js|md)$|node_modules$|(^|[\/\\])\../],
   persistent: true,
 });
 
@@ -52,7 +63,7 @@ watcher
   })
   .on("unlink", (path) => {
     log(`File ${path} has been removed`);
-    defaultFile = path.join("./default.html");
+    defaultFile = path.join("web/default.html");
     //socket send
     io.sockets.emit("filechange");
   });
@@ -69,4 +80,22 @@ function handleHtml(html) {
   </script>`;
   let newhtml = html.slice(0, index - 1) + socketStirng + html.slice(index - 1);
   return newhtml;
+}
+//读取静态资源
+function readStaticFile(res, filePathname) {
+  //文件后缀
+  var ext = path.parse(filePathname).ext;
+  var mimeType = mime.getType(ext);
+  if (ext) {
+    try {
+      let data = fs.readFileSync(filePathname);
+      res.writeHead(200, {"Content-Type": mimeType});
+      res.write(data);
+      res.end();
+    } catch (e) {
+      res.writeHead(404, {"Content-Type": "text/plain"});
+      // res.write("404 - NOT FOUND");
+      res.end();
+    }
+  }
 }
