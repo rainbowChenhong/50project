@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <style>
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to left, #2396ef, #2275d4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .content {
+        width: 550px;
+      }
+      textarea {
+        width: 550px;
+        border: none;
+        height: 100px;
+        outline: none;
+        border-radius: 4px;
+        padding: 10px;
+        box-sizing: border-box;
+        font-size: 15px;
+        color: #333;
+        resize: none;
+      }
+      .choices {
+        list-style: none;
+        padding: 0px;
+      }
+      .choices li {
+        padding: 8px 18px;
+        background-color: #194cd8;
+        border-radius: 8px;
+        color: #fff;
+        display: inline-block;
+        margin: 5px;
+      }
+      .choices li.active {
+        background-color: #e27f0e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <h3>
+        Enter all of the choices divided by a comma (','),if there is no comma
+        (','), they will be separated by space,Press enter when you're done
+      </h3>
+      <textarea id="textarea"></textarea>
+      <ul class="choices">
+        <!-- <li>erte</li>
+        <li>erte</li>
+        <li class="active">erte</li> -->
+      </ul>
+    </div>
+    <script>
+      document.getElementById("textarea").addEventListener("blur", (e) => {
+        let choices = e.target.value;
+        choices = choices.split(",").filter((item) => item);
+        generateChoiceList(choices);
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.code === "Enter") {
+          let choices = document.getElementById("textarea").value;
+          choices = choices.split(",").filter((item) => item);
+          document.getElementById("textarea").blur();
+          generateChoiceList(choices);
+        }
+      });
+      function generateChoiceList(choices) {
+        let choicesElement = document.getElementsByClassName("choices")[0];
+        if (choicesElement) {
+          choicesElement.remove();
+        }
+        let newchoicesElement = document.createElement("ul");
+        newchoicesElement.classList.add("choices");
+        console.log(choices, "choices");
+        choices.map((item) => {
+          let li = document.createElement("li");
+          li.innerText = item;
+          newchoicesElement.append(li);
+        });
+        document.querySelectorAll(".content")[0].append(newchoicesElement);
+        random();
+      }
+      function random() {
+        let choicesElement = document.getElementsByClassName("choices")[0];
+        let choicesList = choicesElement.children;
+        choicesList = Array.prototype.slice.call(choicesList);
+        let lastElement = null;
+        let len = choicesList.length;
+        let time = 0;
+        function randomElement() {
+          let timeOut = setTimeout(() => {
+            lastElement && lastElement.classList.remove("active");
+            lastElement = choicesList[Math.floor(Math.random() * len)];
+            lastElement.classList.add("active");
+            clearTimeout(timeOut);
+            if (time < 15) {
+              randomElement();
+              time++;
+            }
+          }, getRandomNum());
+        }
+        randomElement();
+      }
+
+      function getRandomNum() {
+        return (Math.random() * 150).toFixed();
+      }
+    </script>
+  </body>
+</html>

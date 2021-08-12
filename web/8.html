@@ -1,0 +1,101 @@
+<!--
+ * @Description: 
+ * @version: 1.0.0
+ * @Author: chenhong
+ * @Date: 2021-08-11 17:10:59
+ * @LastEditors: chenhong
+ * @LastEditTime: 2021-08-11 17:49:06
+-->
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <style>
+      html {
+        width: 100%;
+        height: 100%;
+      }
+      body {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .tips {
+        border: 1px solid #333;
+        padding: 10px;
+        border-radius: 3px;
+        box-shadow: 0 5px 8px rgb(0 0 0 / 40%);
+      }
+      .keycode {
+        display: none;
+        width: 500px;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .keycode .item {
+        width: 150px;
+        text-align: center;
+      }
+      .keycode .item span {
+        color: #747273;
+      }
+      .keycode .item div {
+        width: 100%;
+        border: 1px solid #333;
+        font-size: 18px;
+        color: #333;
+        border-radius: 3px;
+        height: 50px;
+        line-height: 50px;
+        box-sizing: border-box;
+        box-shadow: 0 5px 8px rgb(0 0 0 / 40%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tips">Press any key to get the keyCode</div>
+    <div class="keycode">
+      <div class="item">
+        <span>event.key</span>
+        <div></div>
+      </div>
+      <div class="item">
+        <span>event.keyCode</span>
+        <div></div>
+      </div>
+      <div class="item">
+        <span>event.code</span>
+        <div></div>
+      </div>
+    </div>
+    <script>
+      let list = document.querySelectorAll(".item div");
+      list = Array.prototype.slice.call(list);
+      document.addEventListener("keydown", (e) => {
+        document.querySelectorAll(".tips")[0].style.display = "none";
+        document.querySelectorAll(".keycode")[0].style.display = "flex";
+        const {key, keyCode, code} = e;
+        //keyCode不推荐使用了
+        /*
+        event.key指明具体输入的字符内容
+        event.code指明按下的是具体哪个物理键
+        */
+        const keyList = [key, keyCode, code];
+        list.map((item, index) => {
+          item.innerHTML = keyList[index];
+        });
+      });
+    </script>
+  </body>
+</html>

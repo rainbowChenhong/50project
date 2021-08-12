@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <style>
+      .list {
+        display: flex;
+        align-items: center;
+        width: 500px;
+        padding: 20px;
+        justify-content: space-between;
+      }
+      .btn {
+        width: 100px;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        outline: none;
+        background: linear-gradient(90deg, #0970c5, #064d86);
+        border: none;
+        color: #fff;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="list">
+      <!-- <audio src="./victory.mp3"></audio>
+          <button>victory</button> -->
+    </div>
+    <script>
+      let sounds = ["./victory.mp3", "./victory.mp3", "./victory.mp3"];
+      let list = document.getElementsByClassName("list")[0];
+      let audioList = [];
+      sounds.map((sound) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = "victory";
+        btn.classList.add("btn");
+        const audio = document.createElement("audio");
+        audio.src = sound;
+        audioList.push(audio);
+        btn.addEventListener("click", (e) => {
+          audioList.map((item) => {
+            item.pause();
+          });
+          audio.play();
+        });
+        list.appendChild(btn);
+        list.insertAdjacentElement("beforebegin", audio);
+      });
+    </script>
+  </body>
+</html>
