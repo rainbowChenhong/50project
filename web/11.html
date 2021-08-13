@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <style>
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(12deg, #2396ef, #4470ef);
+      }
+      .content {
+        width: 410px;
+      }
+      .remind {
+        width: 150px;
+        height: 350px;
+        border: 4px solid #0a2f9e;
+        border-bottom-left-radius: 28px;
+        border-bottom-right-radius: 28px;
+        background-color: #fff;
+        color: #2396ef;
+        margin: auto;
+        overflow: hidden;
+      }
+      .remind .remind-tips {
+        font-weight: 700;
+        font-size: 22px;
+        text-align: center;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        transition: all 0.3s linear;
+      }
+      .cup-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      .cup-list .cup {
+        width: 50px;
+        height: 100px;
+        border: 4px solid #0a2f9e;
+        border-bottom-left-radius: 28px;
+        border-bottom-right-radius: 28px;
+        background-color: #fff;
+        margin: 10px 15px;
+        color: #2396ef;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s linear;
+      }
+      .cup.active {
+        color: #fff;
+        background: #b6c4ee;
+      }
+      .percent {
+        color: #0d5c99;
+        background: #b6c4ee;
+        line-height: 100%;
+        text-align: center;
+        transition: all 0.3s linear;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <div class="remind">
+        <div class="remind-tips">
+          <div>2L</div>
+          <div>Remained</div>
+        </div>
+        <div class="percent"></div>
+      </div>
+      <p>Select how many glasses of water that you have drank</p>
+      <div class="cup-list">
+        <div class="cup">250 ml</div>
+        <div class="cup">250 ml</div>
+        <div class="cup">250 ml</div>
+        <div class="cup">250 ml</div>
+        <div class="cup">250 ml</div>
+        <div class="cup">250 ml</div>
+        <div class="cup">250 ml</div>
+        <div class="cup">250 ml</div>
+      </div>
+    </div>
+    <script>
+      const RemainedNum = 4;
+      document
+        .querySelectorAll(".cup-list")[0]
+        .addEventListener("click", (e) => {
+          if (e.srcElement.classList.contains("cup")) {
+            let activeCup = document.querySelectorAll(".cup.active");
+            activeCup = Array.prototype.slice.call(activeCup);
+            let activeNum = activeCup.length;
+            if (activeNum >= 4 && !e.srcElement.classList.contains("active")) {
+              return;
+            }
+            e.srcElement.classList.toggle("active");
+            caclRemind();
+          }
+        });
+      function caclRemind() {
+        let activeCup = document.querySelectorAll(".cup.active");
+        activeCup = Array.prototype.slice.call(activeCup);
+        let activeNum = activeCup.length;
+        if (activeNum === RemainedNum) {
+          document.querySelectorAll(".remind-tips")[0].style.height =
+            caclHeight(RemainedNum - activeNum) + "px";
+          document.querySelectorAll(".remind-tips")[0].style.visibility =
+            "hidden";
+        } else {
+          document.querySelectorAll(".remind-tips")[0].style.visibility =
+            "visible";
+        }
+
+        document.querySelectorAll(".remind-tips >div")[0].innerText =
+          mlToL(1000 - activeNum * 250) + "L";
+        document.querySelectorAll(".remind-tips")[0].style.height =
+          caclHeight(RemainedNum - activeNum) + "px";
+        document.querySelectorAll(".percent")[0].style.height =
+          caclHeight(activeNum) + "px";
+        document.querySelectorAll(".percent")[0].innerText =
+          caclRate(activeNum) * 100 + "%";
+      }
+      function caclRate(num) {
+        return (num * 250) / 1000;
+      }
+      function caclHeight(num) {
+        return caclRate(num) * 350;
+      }
+      function mlToL(ml) {
+        return ml / 500;
+      }
+    </script>
+  </body>
+</html>

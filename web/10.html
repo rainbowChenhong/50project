@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <style>
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+      }
+      body {
+        background: linear-gradient(to right, #a809ad, #ec9cff);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .content {
+        display: flex;
+        width: 500px;
+        justify-content: space-between;
+      }
+      .content div {
+        text-align: center;
+        width: 150px;
+        color: #fff;
+        font-size: 25px;
+        font-weight: 300;
+      }
+      /* @property --integer {
+        syntax: "<integer>";
+        initial-value: 0;
+        inherits: false;
+      }
+      #counter::after {
+        content: counter(num);
+      }
+      @keyframes counter {
+        from {
+          --num: 0;
+        }
+        to {
+          --num: 100;
+        }
+      }
+
+      #counter {
+        animation: counter 5s infinite alternate ease-in-out;
+        counter-reset: num var(--num);
+      } */
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <div>1</div>
+      <div id="counter"></div>
+      <div></div>
+    </div>
+    <script>
+      window.onload = function () {
+        let node = document.querySelectorAll(".content")[0].children;
+        animateValue(node[0], 0, 1500, 1500);
+        animateValue(node[1], 90, 2500, 1000);
+        animateValue(node[2], 0, 2500, 3000);
+      };
+      function animateValue(obj, start, end, duration) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+          obj.innerHTML = Math.floor(progress * (end - start) + start);
+          if (progress < 1) {
+            window.requestAnimationFrame(step);
+          }
+        };
+        window.requestAnimationFrame(step);
+      }
+    </script>
+  </body>
+</html>
