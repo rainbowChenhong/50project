@@ -76,7 +76,7 @@
       .percent {
         color: #0d5c99;
         background: #b6c4ee;
-        line-height: 100%;
+        /* line-height: 100%; */
         text-align: center;
         transition: all 0.3s linear;
       }
@@ -138,6 +138,8 @@
         document.querySelectorAll(".remind-tips")[0].style.height =
           caclHeight(RemainedNum - activeNum) + "px";
         document.querySelectorAll(".percent")[0].style.height =
+          caclHeight(activeNum) + "px";
+        document.querySelectorAll(".percent")[0].style.lineHeight =
           caclHeight(activeNum) + "px";
         document.querySelectorAll(".percent")[0].innerText =
           caclRate(activeNum) * 100 + "%";
