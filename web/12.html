@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <style>
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        --bgColor: #fff;
+        --borderColor: #333;
+        background-color: var(--bgColor);
+      }
+      .menu {
+        margin-bottom: 20px;
+      }
+      .menu button {
+        width: 120px;
+        height: 45px;
+        text-align: center;
+        line-height: 41px;
+        background-color: var(--bgColor);
+        border-color: var(--borderColor);
+        color: var(--borderColor);
+        box-sizing: border-box;
+        border-width: 1px;
+        cursor: pointer;
+      }
+      .clock {
+        width: 200px;
+        height: 200px;
+        border-radius: 100%;
+        margin: auto;
+        border-width: 1px;
+        border-style: solid;
+        border-color: var(--borderColor);
+        position: relative;
+      }
+      .hour {
+        position: absolute;
+        width: 50px;
+        height: 3px;
+        background-color: red;
+        top: 100px;
+        left: 100px;
+        transform-origin: center left;
+      }
+      .minute {
+        position: absolute;
+        width: 80px;
+        height: 3px;
+        background-color: blue;
+        top: 100px;
+        left: 100px;
+        transform-origin: center left;
+      }
+      .second {
+        position: absolute;
+        width: 100px;
+        height: 3px;
+        background-color: green;
+        top: 100px;
+        left: 100px;
+        transform-origin: center left;
+      }
+      .date-info > p:nth-child(1) {
+        text-align: center;
+        font-size: 35px;
+        color: var(--borderColor);
+      }
+      .date-info > p:nth-child(2) {
+        font-size: 15px;
+        color: var(--borderColor);
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="box">
+      <div class="menu">
+        <button>light模式</button>
+        <button>中文模式</button>
+      </div>
+      <div class="clock">
+        <div class="hour"></div>
+        <div class="minute"></div>
+        <div class="second"></div>
+      </div>
+      <div class="date-info">
+        <p>1</p>
+        <p>3</p>
+      </div>
+    </div>
+    <script>
+      let curreentMode = "light";
+      let languageModeChinse = true;
+      document
+        .querySelectorAll(".menu button")[0]
+        .addEventListener("click", (e) => {
+          changeThemeMode(e);
+        });
+      function changeThemeMode(e) {
+        if (curreentMode === "light") {
+          curreentMode = "dark";
+          document.body.style.setProperty("--bgColor", "#333");
+          document.body.style.setProperty("--borderColor", "#fff");
+          e.target.innerText = "dark模式";
+        } else {
+          curreentMode = "light";
+          document.body.style.setProperty("--bgColor", "#fff");
+          document.body.style.setProperty("--borderColor", "#333");
+          e.target.innerText = "light模式";
+        }
+      }
+      document
+        .querySelectorAll(".menu button")[1]
+        .addEventListener("click", (e) => {
+          changeLanguage(e);
+        });
+      function changeLanguage(e) {
+        languageModeChinse = !languageModeChinse;
+        if (languageModeChinse) {
+          e.target.innerText = "中文模式";
+        } else {
+          e.target.innerText = "english";
+        }
+      }
+      setInterval(() => {
+        let date = new Date();
+        handleDateInfo(date);
+        clockRun(date);
+      }, 1000);
+      function handleDateInfo(date) {
+        let pElement = document.querySelectorAll(".date-info p");
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let ampm = "";
+        console.log(hours >= 12, "hours");
+        if (languageModeChinse) {
+          ampm = hours >= 12 ? "下午" : " 上午";
+        } else {
+          ampm = hours >= 12 ? "pm" : "am";
+        }
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        pElement[0].innerText = `${hours}:${minutes} ${ampm}`;
+        let day = date.getDay();
+        pElement[1].innerText = `${getMonth(date)}  ${getDay(day)}`;
+      }
+      function getMonth(date) {
+        let month = date.getMonth();
+        if (languageModeChinse) {
+          return `${month + 1}月${date.getDate()}日`;
+        }
+        monthEnglish = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Spt",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        return `${monthEnglish[month]} ${date.getDate()}`;
+      }
+      function getDay(day) {
+        switch (day) {
+          case 0:
+            return languageModeChinse ? "星期日" : "Sunday";
+          case 1:
+            return languageModeChinse ? "星期一" : "Monday";
+          case 2:
+            return languageModeChinse ? "星期二" : "Tuesday";
+            break;
+          case 3:
+            return languageModeChinse ? "星期三" : "Wednesday";
+            break;
+          case 4:
+            return languageModeChinse ? "星期四" : "Thursday";
+            break;
+          case 5:
+            return languageModeChinse ? "星期五" : "Friday";
+            break;
+          case 6:
+            return languageModeChinse ? "星期六" : "Saturday";
+            break;
+        }
+      }
+      function clockRun(date) {
+        let hour = document.querySelectorAll(".hour")[0];
+        let minute = document.querySelectorAll(".minute")[0];
+        let second = document.querySelectorAll(".second")[0];
+        let hours = date.getHours() + 1;
+        let minutes = date.getMinutes();
+        let seconds = date.getSeconds();
+        let hourDeg = (360 / 12) * hours - 90;
+        let minutesDeg = minutes * 6 - 90;
+        let secondDeg = seconds * 6 - 90;
+        hour.style.transform = `rotate(${hourDeg}deg)`;
+        minute.style.transform = `rotate(${minutesDeg}deg)`;
+        second.style.transform = `rotate(${secondDeg}deg)`;
+      }
+    </script>
+  </body>
+</html>
