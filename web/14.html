@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <style>
+      body {
+        width: 800px;
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+      }
+      .bar {
+        margin-bottom: 20px;
+        width: 100%;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        background: linear-gradient(
+          to right,
+          #e73434,
+          #e6ad45,
+          #e6d543,
+          #32bb54,
+          #47acd4,
+          #5b34e7,
+          #e734c0,
+          #e73434
+        );
+      }
+
+      #drawing {
+        border: 1px solid blue;
+      }
+
+      .line-width button {
+        background: radial-gradient(
+          closest-corner circle at 50% top,
+          #98aee9,
+          #183ad3
+        );
+        color: #fff;
+        font-size: 25px;
+        border-color: transparent;
+        cursor: pointer;
+      }
+      .line-width input {
+        width: 50px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 16px;
+        border-radius: 3px;
+        border: 1px solid #183ad3;
+        outline: none;
+        text-align: center;
+      }
+      .clear button {
+        background: radial-gradient(
+          closest-corner circle at 50% top,
+          #98aee9,
+          #183ad3
+        );
+        color: #fff;
+        font-size: 25px;
+        border-color: transparent;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bar">
+      <div class="line-width">
+        <button>-</button>
+        <input id="fontWidth" value="16" />
+        <button>+</button>
+      </div>
+      <div class="pick-color">
+        <input type="color" id="pickColor" />
+      </div>
+      <div class="clear"><button>×</button></div>
+    </div>
+    <canvas id="drawing" width="800" height="800"></canvas>
+    <script>
+      let currentColor = "#000";
+      let currentFontSize = "16";
+      document.getElementById("pickColor").addEventListener("change", (e) => {
+        currentColor = e.target.value;
+      });
+      let fontWidth = document.getElementById("fontWidth");
+      fontWidth.addEventListener("change", (e) => {
+        currentFontSize = e.target.value;
+        console.log(currentFontSize, "currentFontSize");
+      });
+      let button = document.querySelectorAll(".line-width button");
+      button[0].addEventListener("click", () => {
+        if (currentFontSize) {
+          decreaseFontSize();
+        }
+      });
+      button[1].addEventListener("click", () => {
+        increaseFontSize();
+      });
+      function decreaseFontSize() {
+        currentFontSize = --currentFontSize;
+        fontWidth.value = currentFontSize;
+      }
+      function increaseFontSize() {
+        currentFontSize = ++currentFontSize;
+        fontWidth.value = currentFontSize;
+      }
+      let canvas = document.getElementById("drawing");
+      let ctx = null;
+      if (canvas.getContext) {
+        ctx = canvas.getContext("2d");
+      }
+      let isPressed;
+      let x, y;
+
+      canvas.addEventListener("mouseup", (e) => {
+        isPressed = false;
+        x = undefined;
+        y = undefined;
+      });
+      canvas.addEventListener("mousedown", (e) => {
+        isPressed = true;
+        x = e.offsetX;
+        y = e.offsetY;
+      });
+      function handleMove(e) {
+        if (isPressed) {
+          const x2 = e.offsetX,
+            y2 = e.offsetY;
+          //   drawCircle(x2, y2);
+          drawLine(x, y, x2, y2);
+          x = x2;
+          y = y2;
+        }
+      }
+      function drawCircle(x, y) {
+        ctx.beginPath();
+        //弧度为一圈Math.PI * 2
+        ctx.arc(x, y, currentFontSize / 2, 0, Math.PI * 2);
+        ctx.fillStyle = currentColor;
+        ctx.fill();
+      }
+      function drawLine(x1, y1, x2, y2) {
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.strokeStyle = currentColor;
+        ctx.lineWidth = currentFontSize;
+        ctx.lineCap = "round";
+        ctx.stroke();
+      }
+      function throttle(fn, druation = 50) {
+        let now = new Date().getTime();
+        return (...arg) => {
+          let current = new Date().getTime();
+          if (current > now + druation) {
+            now = current;
+            console.log(...arg);
+            fn.call(null, ...arg);
+          }
+        };
+      }
+      let moveFn = throttle(handleMove);
+      canvas.addEventListener("mousemove", moveFn);
+      document.querySelectorAll(".clear")[0].addEventListener("click", () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+    </script>
+  </body>
+</html>

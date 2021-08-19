@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <style>
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: radial-gradient(circle at 50% 30%, #7d7ff0, #8d31d8),
+          linear-gradient(90deg, #7d7ff0, #8d31d8),
+          linear-gradient(180deg, #62b1f1, #27b4ec),
+          radial-gradient(ellipse at bottom center, #62b1f1, #27b4ec);
+      }
+      button {
+        display: inline-block;
+        outline: none;
+        padding: 20px 35px;
+        color: #fff;
+        border-radius: 5px;
+        background-image: linear-gradient(90deg, #f19b62, #ec7627),
+          radial-gradient(circle, #f0df7d, #d8cd31);
+        cursor: pointer;
+        border: none;
+        position: relative;
+        overflow: hidden;
+        font-size: 25px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+      .circle {
+        width: 100px;
+        height: 100px;
+        transform: translate(-50%, -50%) scale(0);
+        transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+        position: absolute;
+        background-image: linear-gradient(to left, #f0d3c0, #f0a574),
+          radial-gradient(circle, #f3ebbf, #ece57e);
+        border-radius: 50%;
+        animation: scale 0.3s ease-in-out;
+      }
+      @keyframes scale {
+        to {
+          transform: translate(-50%, -50%) scale(3);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button>click me<span id="circle"></span></button>
+
+    <script>
+      document.querySelectorAll("button")[0].addEventListener("click", (e) => {
+        let {layerX, layerY} = e;
+        let circle = document.querySelectorAll("#circle")[0];
+        circle.style.top = layerY + "px";
+        circle.style.left = layerX + "px";
+        circle.classList.add("circle");
+        let timeout = setTimeout(() => {
+          circle.classList.remove("circle");
+          clearTimeout(timeout);
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>
